@@ -1,25 +1,41 @@
 <template>
   <div class="container">
     <div class="game">
-      <div ref="one" class="game-element top-left" @click="handlerGame(1)">
+      <div
+        ref="one"
+        class="game-element top-left"
+        @click="handlerGame(1, $refs.clip1)"
+      >
         <audio ref="clip1">
           <source src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" />
         </audio>
       </div>
 
-      <div ref="two" class="game-element top-right" @click="handlerGame(2)">
+      <div
+        ref="two"
+        class="game-element top-right"
+        @click="handlerGame(2, $refs.clip2)"
+      >
         <audio ref="clip2">
           <source src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" />
         </audio>
       </div>
 
-      <div ref="three" class="game-element bottom-left" @click="handlerGame(3)">
+      <div
+        ref="three"
+        class="game-element bottom-left"
+        @click="handlerGame(3, $refs.clip2)"
+      >
         <audio ref="clip3">
           <source src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" />
         </audio>
       </div>
 
-      <div ref="four" class="game-element bottom-right" @click="handlerGame(4)">
+      <div
+        ref="four"
+        class="game-element bottom-right"
+        @click="handlerGame(4, $refs.clip4)"
+      >
         <audio ref="clip4">
           <source src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" />
         </audio>
@@ -32,7 +48,9 @@
       Normal
       <input type="radio" name="diff" value="hard" v-model="diff" />
       Hard
-      <button class="btn" @click="startGame">Start Game</button>
+      <button class="btn" @click="startGame">
+        {{ this.gameStarted ? 'In Game' : 'Start Game' }}
+      </button>
       <div class="round-counter">Round: {{ round }}</div>
       <div class="winner" v-if="this.win">Congratulations your winner!</div>
       <div class="lost" v-if="this.lost">You lost</div>
@@ -76,6 +94,7 @@ export default {
     getDiff(event) {
       this.diff = event;
       this.gameStarted = false;
+      this.good = false;
       this.round = 1;
     },
     startGame() {
@@ -109,7 +128,7 @@ export default {
           if (this.order[this.flash] == 3) this.lightingButton(3);
           if (this.order[this.flash] == 4) this.lightingButton(4);
           this.flash += 1;
-        }, 50);
+        }, 200);
       }
     },
 
@@ -137,11 +156,12 @@ export default {
       if (!this.win) {
         setTimeout(() => {
           item.classList.remove('light');
-        }, this.diffInterval);
+        }, 200);
       }
     },
 
-    handlerGame(event) {
+    handlerGame(event, audio) {
+      audio.play();
       if (this.gameStarted) {
         this.playerOrder.push(event);
         this.check();
