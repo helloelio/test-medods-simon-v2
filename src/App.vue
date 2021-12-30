@@ -43,10 +43,28 @@
     </div>
     <div class="controls">
       Game options:
-      <input type="radio" name="diff" value="easy" v-model="diff" />Easy
-      <input type="radio" name="diff" value="normal" v-model="diff" />
+      <input
+        type="radio"
+        name="diff"
+        value="easy"
+        v-model="diff"
+        @input="getDiff"
+      />Easy
+      <input
+        type="radio"
+        name="diff"
+        value="normal"
+        v-model="diff"
+        @input="getDiff"
+      />
       Normal
-      <input type="radio" name="diff" value="hard" v-model="diff" />
+      <input
+        type="radio"
+        name="diff"
+        value="hard"
+        v-model="diff"
+        @input="getDiff"
+      />
       Hard
       <button class="btn" @click="startGame">
         {{ this.gameStarted ? 'In Game' : 'Start Game' }}
@@ -91,8 +109,7 @@ export default {
   },
 
   methods: {
-    getDiff(event) {
-      this.diff = event;
+    getDiff() {
       this.gameStarted = false;
       this.good = false;
       this.round = 1;
@@ -150,7 +167,6 @@ export default {
     },
 
     lightingButtonHelper(item, audio) {
-      console.log(item);
       item.classList.add('light');
       audio.play();
       if (!this.win) {
@@ -221,56 +237,60 @@ export default {
   border: none;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 0px 10px 0px black;
+  }
 }
-.btn:hover {
-  transform: scale(1.01);
-  box-shadow: 0px 0px 10px 0px black;
-}
+
 .game {
   display: grid;
   grid-template-columns: auto auto;
   max-width: 500px;
   margin: 0 auto 20px;
+  .game-element {
+    height: 200px;
+    border: 10px solid #000;
+    cursor: pointer;
+  }
+  .top-left {
+    border-top-left-radius: 100%;
+    background-color: green;
+    &:active {
+      opacity: 0.8;
+    }
+  }
+
+  .top-right {
+    border-top-right-radius: 100%;
+    background-color: red;
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  .bottom-left {
+    border-bottom-left-radius: 100%;
+    background-color: yellow;
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  .bottom-right {
+    border-bottom-right-radius: 100%;
+    background-color: blue;
+    &:active {
+      opacity: 0.8;
+    }
+  }
 }
+
 .controls {
   max-width: 500px;
   background-color: gray;
   color: white;
   margin: 0 auto;
 }
-.game-element {
-  height: 200px;
-  border: 10px solid #000;
-  cursor: pointer;
-}
-.top-left {
-  border-top-left-radius: 100%;
-  background-color: green;
-}
-.top-left:active {
-  opacity: 0.8;
-}
-.top-right {
-  border-top-right-radius: 100%;
-  background-color: red;
-}
-.top-right:active {
-  opacity: 0.8;
-}
-.bottom-left {
-  border-bottom-left-radius: 100%;
-  background-color: yellow;
-}
-.bottom-left:active {
-  opacity: 0.8;
-}
-.bottom-right {
-  border-bottom-right-radius: 100%;
-  background-color: blue;
-}
-.bottom-right:active {
-  opacity: 0.8;
-}
+
 .light {
   opacity: 0.7;
 }
